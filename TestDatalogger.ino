@@ -73,6 +73,11 @@ float PreviousAlt = 0;
 float CurrentAlt = 0;
 //float []  //Array of last alt
 
+//Countdown beeps
+int Countdown = 0;
+int CountdownInterval = 1000;
+int overflower = 0;
+
 void setup() {
   //tripleFlash();
   // Open serial communications and wait for port to open:
@@ -82,6 +87,8 @@ void setup() {
   //}
 
   myservo.attach(servopin);
+  //set servo to correct location.
+  myservo.write(90);
 
   // When using hardware SPI, the SS pin MUST be set to an
   // output (even if not connected or used).  If left as a
@@ -229,110 +236,75 @@ void setup() {
   flash(1, green);
 
   
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 0; pos >= 90; pos += 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the positiony
-    
-  }
+
   flash(2, red);
   flash(2, blue);
   flash(2, green);
   tone(boop, 660, 100);
   */
-  myservo.write(90);
-  delay(1000);
-  //for (int tur = 90; tur > 54; tur--){
-  //  myservo.write(tur);
-  //  delay(500);
-  //}
-  myservo.write(115);
-  delay(1000);
-  //delay(10000);
-  myservo.write(90);
-  delay(1000);
+
   
 }
 
+
+//need some system so that the logging can occur while there is a three beep countdown
+//need the logging to continue after the chute comes out
+//need to record in the log the moment of chute release, give me an idea of when it should happen based on barometer data.
 void loop() {
   // make a string for assembling the data to log:
   //String dataString = "Hello Dash";
 
+  Countdown++;
+  if (Countdown % 10 == 0){
+    overflower++;
+  }
+  if (Countdown == CountdownInterval or Countdown == CountdownInterval*2 or Countdown == CountdownInterval*3){
+    //if that aint the dirtiest line of code I've ever written well I'll be
+    beep(400);   
+  }
+  if (Countdown == CountdownInterval*4){
+    //un cork, 
+    delay(1000);
+    myservo.write(115);
+    //and log it 
+    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
+    // if the file is available, write to it:
+    if (dataFile) {
+      dataFile.println("Deploy");
+      dataFile.println(bme.readPressure());
+      dataFile.println(Countdown);
+      dataFile.println(overflower);
+      dataFile.close();
+    }
+    // if the file isn't open, pop up an error:
+    else {
+      beep(350);    
+    }
+  }
+  if (Countdown == CountdownInterval*6){
+    //reset location after a bit.
+    myservo.write(90);
+    delay(1000);
+  }
 
-  
+  /*
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   File dataFile = SD.open("datalog2.txt", FILE_WRITE);
-
   // if the file is available, write to it:
   if (dataFile) {
-    //dataFile.println(dataString);
     dataFile.println(bme.readPressure());
-    //dataFile.println(bme.readTemperature());
     dataFile.close();
-    // print to the serial port too:
-    //Serial.println(dataString);
-    //fullBright();
-    //flash(1,red);
   }
   // if the file isn't open, pop up an error:
   else {
-    //Serial.println("error opening datalog.txt");
-    //halfBright();
-    //flash(1,green);
-    //flash(1,blue);
     beep(350);    
   }
-  
-  //SERVO SHIT
-  /*
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
   */
+  
+
 }
 
-
-
-/*  LED Control
-void fullBright(){
-  analogWrite(3,50);
-  delay(500);
-  analogWrite(3,0);
-  delay(10);
-}
-
-void flash(int numTimes, int pin, int delayTime){
-  for (int x = 0; x < numTimes; x++){
-    analogWrite(pin,50);
-    delay(delayTime);
-    analogWrite(pin,0);
-    delay(delayTime);
-  }
-}
-void flash(int numTimes, int pin){
-  for (int x = 0; x < numTimes; x++){
-    analogWrite(pin,50);
-    delay(200);
-    analogWrite(pin,0);
-    delay(200);
-  }
-}
-*/
 
 void beep(int freq){
   tone(boop, freq, 100);
@@ -374,117 +346,3 @@ void woopdown(){
   tone(boop, 220,100);
 }
 
-void HouseOfTheRisingSun(){
-  _A1();
-  delay(400);
-  _A1();
-  delay(400);
-  _B1();
-  delay(400);
-  _C1();
-  delay(400);
-  _D1();
-  delay(200);
-  _E1();
-  delay(400);
-  _D1();
-  delay(400);
-  _A1();
-  delay(150);
-  _A1();
-  delay(400);
-  _A1();
-  delay(400);
-  _A2();
-  delay(400);
-  _A2();
-  delay(400);
-  _A2();
-  delay(400);
-  _G1();
-  delay(400);
-  _E1();
-  delay(400);
-  _E1();
-  delay(400);
-  _A2();
-  delay(400);
-  _A2();
-  delay(400);
-  _A2();
-  delay(400);
-  _A2();
-  delay(400);
-  _G1();
-  delay(400);
-  _E1();
-  delay(400);
-  _D1();
-  delay(400);
-  _A1();
-  delay(150);
-  _A1();
-  delay(400);
-  _C1();
-  delay(400);
-  _A1();
-  delay(400);
-  _A1();
-  delay(400);
-  _A1();
-  delay(400);
-  _A1();
-  delay(400);
-  _A1Flat();
-  delay(400);
-  _B1();
-  delay(400);
-  _A1();
-  delay(400);
-}
-
-void _A1Flat(){
-  tone(boop, 207,100);
-}
-void _A1(){
-  tone(boop, 220,100);
-}
-void _B1(){
-  tone(boop, 246,100);
-}
-void _C1(){
-  tone(boop, 261,100);
-}
-void _D1(){
-  tone(boop, 293,100);
-}
-void _E1(){
-  tone(boop, 329,100);
-}
-void _F1(){
-  tone(boop, 349,100);
-}
-void _G1(){
-  tone(boop, 391,100);
-}
-void _A2(){
-  tone(boop, 440,100);
-}
-void _B2(){
-  tone(boop, 493,100);
-}
-void _C2(){
-  tone(boop, 523,100);
-}
-void _D2(){
-  tone(boop, 587,100);
-}
-void _E2(){
-  tone(boop, 659,100);
-}
-void _F2(){
-  tone(boop, 698,100);
-}
-void _G2(){
-  tone(boop, 783,100);
-}
