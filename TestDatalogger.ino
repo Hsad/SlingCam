@@ -71,11 +71,12 @@ int boop = 17;
 //Direction Data
 float PreviousAlt = 0;
 float CurrentAlt = 0;
-//float []  //Array of last alt
+int storeSize = 1000;
+float baromStore[1000];  //Array of last alt
 
 //Countdown beeps
-int Countdown = 0;
-int CountdownInterval = 1000;
+long Countdown = 0;
+long CountdownInterval = 30000;
 int overflower = 0;
 
 void setup() {
@@ -255,7 +256,7 @@ void loop() {
   //String dataString = "Hello Dash";
 
   Countdown++;
-  if (Countdown % 10 == 0){
+  if (Countdown % 100 == 0){
     overflower++;
   }
   if (Countdown == CountdownInterval or Countdown == CountdownInterval*2 or Countdown == CountdownInterval*3){
@@ -265,15 +266,12 @@ void loop() {
   if (Countdown == CountdownInterval*4){
     //un cork, 
     delay(1000);
-    myservo.write(115);
+    myservo.write(145);
     //and log it 
     File dataFile = SD.open("datalog2.txt", FILE_WRITE);
     // if the file is available, write to it:
     if (dataFile) {
       dataFile.println("Deploy");
-      dataFile.println(bme.readPressure());
-      dataFile.println(Countdown);
-      dataFile.println(overflower);
       dataFile.close();
     }
     // if the file isn't open, pop up an error:
@@ -287,20 +285,29 @@ void loop() {
     delay(1000);
   }
 
-  /*
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
-  File dataFile = SD.open("datalog2.txt", FILE_WRITE);
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(bme.readPressure());
-    dataFile.close();
+
+  //////Store data, speed boosted, will lead to a stutter in the data points though...
+  baromStore[Countdown % storeSize] = bme.readPressure();
+  if (Countdown+1 % storeSize == 0){ //if the next loop is the 101st
+    // open the file. note that only one file can be open at a time,
+    // so you have to close this one before opening another.
+    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
+    // if the file is available, write to it:
+    if (dataFile) {
+      for (int B_ind = 0; B_ind < storeSize; B_ind++){
+        dataFile.println(baromStore[B_ind]);
+      }
+      //dataFile.println(bme.readPressure());
+      dataFile.close();
+    }
+    // if the file isn't open, pop up an error:
+    else {
+      beep(350);    
+    }
   }
-  // if the file isn't open, pop up an error:
-  else {
-    beep(350);    
-  }
-  */
+
+  //TODO
+  /*Calculate how long it takes the barometer call to respond, then how long it takes to write a line*/
   
 
 }
