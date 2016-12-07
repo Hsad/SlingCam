@@ -76,8 +76,13 @@ float baromStore[1000];  //Array of last alt
 
 //Countdown beeps
 long Countdown = 0;
-long CountdownInterval = 30000;
+long CountdownInterval = 300;
 int overflower = 0;
+
+//loop timer
+//unsigned long lastTime = 0;
+//unsigned long loopDelayTime = 10;
+//unsigned long loopDiffStore;
 
 void setup() {
   //tripleFlash();
@@ -86,11 +91,13 @@ void setup() {
   //while (!Serial) {
   //  ; // wait for serial port to connect. Needed for native USB port only
   //}
-
-  myservo.attach(servopin);
+  tone(boop, 660, 100);
+  delay(350);
+  //myservo.attach(servopin);
   //set servo to correct location.
-  myservo.write(90);
-
+  //myservo.write(90);
+  tone(boop, 660, 100);
+  delay(350);
   // When using hardware SPI, the SS pin MUST be set to an
   // output (even if not connected or used).  If left as a
   // floating input w/SPI on, this can cause lockuppage.
@@ -101,7 +108,8 @@ void setup() {
     if(chipSelect != 10) pinMode(10, OUTPUT); // SS on Uno, etc.
   #endif
   #endif
-
+  tone(boop, 660, 100);
+  delay(350);
   ///WOOOOOOP///
   woopup();
   //delay(300);
@@ -155,6 +163,7 @@ void setup() {
   // if the file is available, write to it:
   if (dataFile) {
     dataFile.println("StartOfThrow");
+    dataFile.println("Running/..,.,.,.,");
     //dataFile.println(bme.readPressure());
     //dataFile.println(bme.readTemperature());
     dataFile.close();
@@ -256,7 +265,7 @@ void loop() {
   //String dataString = "Hello Dash";
 
   Countdown++;
-  if (Countdown % 100 == 0){
+  if (Countdown % 100 == 0){  //just a debug
     overflower++;
   }
   if (Countdown == CountdownInterval or Countdown == CountdownInterval*2 or Countdown == CountdownInterval*3){
@@ -279,10 +288,10 @@ void loop() {
       beep(350);    
     }
   }
-  if (Countdown == CountdownInterval*6){
+  if (Countdown == CountdownInterval*10){
     //reset location after a bit.
     myservo.write(90);
-    delay(1000);
+    delay(1000); //delay becasue everything should have happened by now.... Though that may change when the camera is added
   }
 
 
@@ -308,8 +317,16 @@ void loop() {
 
   //TODO
   /*Calculate how long it takes the barometer call to respond, then how long it takes to write a line*/
+  /*
+  //track the time frame
+  //and delay appropriatly
+  loopDiffStore = millis()-lastTime; //becasue there is a really tiny chance this could underflow in the time that elapses, causing a massive delay, like 50 days.
+  if (loopDiffStore < loopDelayTime){    
+    delay(loopDelayTime - loopDiffStore); //m-t = time elapsed this loop, subract from ideal loop time
+  }
   
-
+  lastTime = millis();
+  */
 }
 
 
