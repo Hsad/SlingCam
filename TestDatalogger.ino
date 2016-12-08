@@ -71,8 +71,8 @@ int boop = 17;
 //Direction Data
 float PreviousAlt = 0;
 float CurrentAlt = 0;
-int storeSize = 1000;
-float baromStore[1000];  //Array of last alt
+int storeSize = 100;
+float baromStore[100];  //Array of last alt
 
 //Countdown beeps
 long Countdown = 0;
@@ -80,19 +80,13 @@ long CountdownInterval = 300;
 int overflower = 0;
 
 //loop timer
-<<<<<<< HEAD
 unsigned long lastTime = 0;
 unsigned long loopDelayTime = 5;
 unsigned long loopDiffStore;
 
 //FileNames, can't be longer than 8 characters, not including file type
-String txtFileName = "datalog4.txt";
+String txtFileName = "datalog3.txt";
 //String txtFileName = "Clockin5.txt";
-=======
-//unsigned long lastTime = 0;
-//unsigned long loopDelayTime = 10;
-//unsigned long loopDiffStore;
->>>>>>> parent of f352271... recording altitude with release countdown
 
 void setup() {
   //tripleFlash();
@@ -263,47 +257,6 @@ void setup() {
   tone(boop, 660, 100);
   */
 
-  /*
-  unsigned long pTime = pressureTime();
-  //File 
-  dataFile = SD.open(txtFileName, FILE_WRITE);
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(pTime);
-    //dataFile.println(bme.readPressure());
-    dataFile.close();
-  }
-  // if the file isn't open, pop up an error:
-  else {
-    beep(800);    
-  }
-  unsigned long ocTime = openCloseTime();
-  //File 
-  dataFile = SD.open(txtFileName, FILE_WRITE);
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(ocTime);
-    //dataFile.println(bme.readPressure());
-    dataFile.close();
-  }
-  // if the file isn't open, pop up an error:
-  else {
-    beep(800);    
-  }
-  unsigned long wTime = writeTime();
-  //File 
-  dataFile = SD.open(txtFileName, FILE_WRITE);
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(wTime);
-    //dataFile.println(bme.readPressure());
-    dataFile.close();
-  }
-  // if the file isn't open, pop up an error:
-  else {
-    beep(800);    
-  }
-  */
 }
 
 
@@ -367,7 +320,6 @@ void loop() {
 
   //TODO
   /*Calculate how long it takes the barometer call to respond, then how long it takes to write a line*/
-  /*
   //track the time frame
   //and delay appropriatly
   loopDiffStore = millis()-lastTime; //becasue there is a really tiny chance this could underflow in the time that elapses, causing a massive delay, like 50 days.
@@ -376,37 +328,6 @@ void loop() {
   }
   
   lastTime = millis();
-  */
-<<<<<<< HEAD
-}
-
-unsigned long pressureTime(){
-  unsigned long start = micros();
-  for (int x = 0; x < 10000; x++){
-    bme.readPressure();
-  }
-  return micros() - start;
-=======
->>>>>>> parent of f352271... recording altitude with release countdown
-}
-
-unsigned long openCloseTime(){
-  unsigned long start = micros();
-  for (int x = 0; x < 10000; x++){
-    File dataFile = SD.open(txtFileName, FILE_WRITE);
-    dataFile.close();
-  }
-  return micros() - start;
-}
-
-unsigned long writeTime(){
-  File dataFile = SD.open(txtFileName, FILE_WRITE);
-  unsigned long start = micros();
-  for (int x = 0; x < 10000; x++){
-    dataFile.println(x);
-  }
-  dataFile.close();
-  return micros() - start;
 }
 
 void beep(int freq){
