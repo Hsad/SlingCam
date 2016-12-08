@@ -84,8 +84,9 @@ unsigned long lastTime = 0;
 unsigned long loopDelayTime = 5;
 unsigned long loopDiffStore;
 
-//FileNames
-String txtFileName = "datalog3.txt";
+//FileNames, can't be longer than 8 characters, not including file type
+//String txtFileName = "datalog3.txt";
+String txtFileName = "Clockin5.txt";
 
 void setup() {
   //tripleFlash();
@@ -249,6 +250,45 @@ void setup() {
   tone(boop, 660, 100);
   */
 
+  unsigned long pTime = pressureTime();
+  //File 
+  dataFile = SD.open(txtFileName, FILE_WRITE);
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println(pTime);
+    //dataFile.println(bme.readPressure());
+    dataFile.close();
+  }
+  // if the file isn't open, pop up an error:
+  else {
+    beep(800);    
+  }
+  unsigned long ocTime = openCloseTime();
+  //File 
+  dataFile = SD.open(txtFileName, FILE_WRITE);
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println(ocTime);
+    //dataFile.println(bme.readPressure());
+    dataFile.close();
+  }
+  // if the file isn't open, pop up an error:
+  else {
+    beep(800);    
+  }
+  unsigned long wTime = writeTime();
+  //File 
+  dataFile = SD.open(txtFileName, FILE_WRITE);
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println(wTime);
+    //dataFile.println(bme.readPressure());
+    dataFile.close();
+  }
+  // if the file isn't open, pop up an error:
+  else {
+    beep(800);    
+  }
   
 }
 
@@ -283,7 +323,7 @@ void loop() {
       woopdown();   
     }
   }
-  if (Countdown == CountdownInterval*10){
+  if (Countdown == CountdownInterval*7){
     //reset location after a bit.
     myservo.write(90);
     delay(1000); //delay becasue everything should have happened by now.... Though that may change when the camera is added
@@ -339,6 +379,32 @@ void loop() {
   
 }
 
+unsigned long pressureTime(){
+  unsigned long start = micros();
+  for (int x = 0; x < 10000; x++){
+    bme.readPressure();
+  }
+  return micros() - start;
+}
+
+unsigned long openCloseTime(){
+  unsigned long start = micros();
+  for (int x = 0; x < 10000; x++){
+    File dataFile = SD.open(txtFileName, FILE_WRITE);
+    dataFile.close();
+  }
+  return micros() - start;
+}
+
+unsigned long writeTime(){
+  File dataFile = SD.open(txtFileName, FILE_WRITE);
+  unsigned long start = micros();
+  for (int x = 0; x < 10000; x++){
+    dataFile.println(x);
+  }
+  dataFile.close();
+  return micros() - start;
+}
 
 void beep(int freq){
   tone(boop, freq, 100);
