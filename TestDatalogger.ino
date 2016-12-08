@@ -71,15 +71,16 @@ int boop = 17;
 //Direction Data
 float PreviousAlt = 0;
 float CurrentAlt = 0;
-int storeSize = 100;
-float baromStore[100];  //Array of last alt
+int storeSize = 1000;
+float baromStore[1000];  //Array of last alt
 
 //Countdown beeps
 long Countdown = 0;
-long CountdownInterval = 100;
+long CountdownInterval = 300;
 int overflower = 0;
 
 //loop timer
+<<<<<<< HEAD
 unsigned long lastTime = 0;
 unsigned long loopDelayTime = 5;
 unsigned long loopDiffStore;
@@ -87,6 +88,11 @@ unsigned long loopDiffStore;
 //FileNames, can't be longer than 8 characters, not including file type
 //String txtFileName = "datalog3.txt";
 String txtFileName = "Clockin5.txt";
+=======
+//unsigned long lastTime = 0;
+//unsigned long loopDelayTime = 10;
+//unsigned long loopDiffStore;
+>>>>>>> parent of f352271... recording altitude with release countdown
 
 void setup() {
   //tripleFlash();
@@ -95,9 +101,13 @@ void setup() {
   //while (!Serial) {
   //  ; // wait for serial port to connect. Needed for native USB port only
   //}
-  myservo.attach(servopin);
+  tone(boop, 660, 100);
+  delay(350);
+  //myservo.attach(servopin);
   //set servo to correct location.
-  myservo.write(90);
+  //myservo.write(90);
+  tone(boop, 660, 100);
+  delay(350);
   // When using hardware SPI, the SS pin MUST be set to an
   // output (even if not connected or used).  If left as a
   // floating input w/SPI on, this can cause lockuppage.
@@ -108,12 +118,14 @@ void setup() {
     if(chipSelect != 10) pinMode(10, OUTPUT); // SS on Uno, etc.
   #endif
   #endif
-
-  
+  tone(boop, 660, 100);
+  delay(350);
   ///WOOOOOOP///
   woopup();
   //delay(300);
   //woopdown();
+
+  //HouseOfTheRisingSun();
 
   pinMode(blue, OUTPUT);
   pinMode(green, OUTPUT);
@@ -156,11 +168,12 @@ void setup() {
   tone(boop, 660, 100);
 
   woopdown();
-  File dataFile = SD.open(txtFileName, FILE_WRITE);
+  File dataFile = SD.open("datalog2.txt", FILE_WRITE);
 
   // if the file is available, write to it:
   if (dataFile) {
     dataFile.println("StartOfThrow");
+    dataFile.println("Running/..,.,.,.,");
     //dataFile.println(bme.readPressure());
     //dataFile.println(bme.readTemperature());
     dataFile.close();
@@ -310,9 +323,10 @@ void loop() {
   }
   if (Countdown == CountdownInterval*4){
     //un cork, 
+    delay(1000);
     myservo.write(145);
     //and log it 
-    File dataFile = SD.open(txtFileName, FILE_WRITE);
+    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
     // if the file is available, write to it:
     if (dataFile) {
       dataFile.println("Deploy");
@@ -320,7 +334,7 @@ void loop() {
     }
     // if the file isn't open, pop up an error:
     else {
-      woopdown();   
+      beep(350);    
     }
   }
   if (Countdown == CountdownInterval*7){
@@ -329,13 +343,13 @@ void loop() {
     delay(1000); //delay becasue everything should have happened by now.... Though that may change when the camera is added
   }
 
-  /*
+
   //////Store data, speed boosted, will lead to a stutter in the data points though...
   baromStore[Countdown % storeSize] = bme.readPressure();
   if (Countdown+1 % storeSize == 0){ //if the next loop is the 101st
     // open the file. note that only one file can be open at a time,
     // so you have to close this one before opening another.
-    File dataFile = SD.open(txtFileName, FILE_WRITE);
+    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
     // if the file is available, write to it:
     if (dataFile) {
       for (int B_ind = 0; B_ind < storeSize; B_ind++){
@@ -346,28 +360,13 @@ void loop() {
     }
     // if the file isn't open, pop up an error:
     else {
-      woopup();   
+      beep(350);    
     }
-  }
-  */
-
-
-  ///Store Data, not speed boosted.
-  File dataFile = SD.open(txtFileName, FILE_WRITE);
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(bme.readPressure());
-    //dataFile.println(bme.readPressure());
-    dataFile.close();
-  }
-  // if the file isn't open, pop up an error:
-  else {
-    beep(350);    
   }
 
   //TODO
   /*Calculate how long it takes the barometer call to respond, then how long it takes to write a line*/
-  
+  /*
   //track the time frame
   //and delay appropriatly
   loopDiffStore = millis()-lastTime; //becasue there is a really tiny chance this could underflow in the time that elapses, causing a massive delay, like 50 days.
@@ -376,7 +375,7 @@ void loop() {
   }
   
   lastTime = millis();
-  
+  */
 }
 
 unsigned long pressureTime(){
