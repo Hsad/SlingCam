@@ -80,19 +80,13 @@ long CountdownInterval = 300;
 int overflower = 0;
 
 //loop timer
-<<<<<<< HEAD
 unsigned long lastTime = 0;
 unsigned long loopDelayTime = 5;
 unsigned long loopDiffStore;
 
 //FileNames, can't be longer than 8 characters, not including file type
-//String txtFileName = "datalog3.txt";
-String txtFileName = "Clockin5.txt";
-=======
-//unsigned long lastTime = 0;
-//unsigned long loopDelayTime = 10;
-//unsigned long loopDiffStore;
->>>>>>> parent of f352271... recording altitude with release countdown
+String txtFileName = "datalog4.txt";
+//String txtFileName = "Clockin5.txt";
 
 void setup() {
   //tripleFlash();
@@ -263,6 +257,7 @@ void setup() {
   tone(boop, 660, 100);
   */
 
+  /*
   unsigned long pTime = pressureTime();
   //File 
   dataFile = SD.open(txtFileName, FILE_WRITE);
@@ -302,7 +297,7 @@ void setup() {
   else {
     beep(800);    
   }
-  
+  */
 }
 
 
