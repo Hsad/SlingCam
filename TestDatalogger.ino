@@ -85,7 +85,7 @@ unsigned long loopDelayTime = 5;
 unsigned long loopDiffStore;
 
 //FileNames
-String txtFileName = "datalog3.txt";
+String txtFileName = "Throw1.txt";
 
 void setup() {
   //tripleFlash();
