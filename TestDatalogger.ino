@@ -10,7 +10,7 @@
  ** MOSI - pin 11
  ** MISO - pin 12
  ** CLK - pin 13
- ** CS - pin 4
+ ** CS - pin 10
 
  created  24 Nov 2010
  modified 9 Apr 2012
@@ -85,18 +85,27 @@ unsigned long loopDelayTime = 10; //millis
 unsigned long loopDiffStore;
 
 //FileNames
-String txtFileName = "GrndTest.txt"; //REMEBER 12345678.123
+//String txtFileName = "GrndTest.txt"; //REMEBER 12345678.123
+String txtFileName = "datalog.txt";
 
 void setup() {
   //tripleFlash();
   // Open serial communications and wait for port to open:
-  //Serial.begin(9600);
-  //while (!Serial) {
-  //  ; // wait for serial port to connect. Needed for native USB port only
-  //}
+  /*  //I think this would be useful if I had an FTDI
+  Serial.begin(9600);
+  while (!Serial) {
+    delay(100); // wait for serial port to connect. Needed for native USB port only
+  }
+  */
+
+  
   myservo.attach(servopin);
   //set servo to correct location.
   myservo.write(90);
+
+  //Im going to comment this out because its weird that I would need it
+  //also it looks like it could be interfering with the chipselect=10 that I have...
+  /*
   // When using hardware SPI, the SS pin MUST be set to an
   // output (even if not connected or used).  If left as a
   // floating input w/SPI on, this can cause lockuppage.
@@ -107,6 +116,7 @@ void setup() {
     if(chipSelect != 10) pinMode(10, OUTPUT); // SS on Uno, etc.
   #endif
   #endif
+  */
 
   
   ///WOOOOOOP///
@@ -154,9 +164,26 @@ void setup() {
   delay(150);
   tone(boop, 660, 100);
 
+  //TESTING
+  File myFile = SD.open("plzwork2.txt", FILE_WRITE);
+
+  // if the file opened okay, write to it:
+  if (myFile) {
+    //Serial.print("Writing to test.txt...");
+    myFile.println("testing 1, 2, 3.");
+    // close the file:
+    myFile.close();
+    //Serial.println("done.");
+  } else {
+    // if the file didn't open, print an error:
+    //Serial.println("error opening test.txt");
+  }
+  //TESTING
+
   File dataFile;
   while(!dataFile){
-    dataFile = SD.open(txtFileName, FILE_WRITE);
+    //dataFile = SD.open(txtFileName.c_str(), FILE_WRITE);
+    dataFile = SD.open("file.txt", FILE_WRITE);
     woopdown();
   }
   
@@ -173,7 +200,7 @@ void setup() {
     //dataFile.println(bme.readTemperature());
     dataFile.close();
   }
-
+  
   woopup();
   
   //need to beable to detect upward motion.
@@ -282,7 +309,8 @@ void loop() {
     //un cork, 
     myservo.write(145);
     //and log it 
-    File dataFile = SD.open(txtFileName, FILE_WRITE);
+    //File dataFile = SD.open(txtFileName.c_str(), FILE_WRITE);
+    File dataFile = SD.open("file.txt", FILE_WRITE);
     // if the file is available, write to it:
     if (dataFile) {
       dataFile.println("Deploy");
@@ -306,7 +334,8 @@ void loop() {
     if (Countdown+1 % storeSize == 0){ //if the next loop is the 101st
       // open the file. note that only one file can be open at a time,
       // so you have to close this one before opening another.
-      File dataFile = SD.open(txtFileName, FILE_WRITE);
+      //File dataFile = SD.open(txtFileName.c_str(), FILE_WRITE);
+      File dataFile = SD.open("file.txt", FILE_WRITE);
       
       // if the file is available, write to it:
       if (dataFile) {
@@ -332,7 +361,7 @@ void loop() {
 
   /*
   ///Store Data, not speed boosted.
-  File dataFile = SD.open(txtFileName, FILE_WRITE);
+  File dataFile = SD.open(txtFileName.c_str(), FILE_WRITE);
   // if the file is available, write to it:
   if (dataFile) {
     dataFile.println(bme.readPressure());
