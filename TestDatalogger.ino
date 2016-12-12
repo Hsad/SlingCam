@@ -81,11 +81,11 @@ int overflower = 0;
 
 //loop timer
 unsigned long lastTime = 0;
-unsigned long loopDelayTime = 5;
+unsigned long loopDelayTime = 10; //millis
 unsigned long loopDiffStore;
 
 //FileNames
-String txtFileName = "Throw2.txt";
+String txtFileName = "GrndTest.txt"; //REMEBER 12345678.123
 
 void setup() {
   //tripleFlash();
@@ -154,17 +154,27 @@ void setup() {
   delay(150);
   tone(boop, 660, 100);
 
-  woopdown();
-  File dataFile = SD.open(txtFileName, FILE_WRITE);
-
+  File dataFile;
+  while(!dataFile){
+    dataFile = SD.open(txtFileName, FILE_WRITE);
+    woopdown();
+  }
+  
   // if the file is available, write to it:
   if (dataFile) {
     dataFile.println("StartOfThrow");
+    dataFile.println("Array Size:");
+    //dataFile.println(storeSize);
+    dataFile.println("time Block Size:");
+    //dataFile.println(loopDelayTime);
+    dataFile.println("countdown Interval");
+    //dataFile.println(CountdownInterval);
     //dataFile.println(bme.readPressure());
     //dataFile.println(bme.readTemperature());
     dataFile.close();
   }
 
+  woopup();
   
   //need to beable to detect upward motion.
   //need to detect a reversal in direction.
@@ -289,29 +299,38 @@ void loop() {
     delay(1000); //delay becasue everything should have happened by now.... Though that may change when the camera is added
   }
 
-  /*
-  //////Store data, speed boosted, will lead to a stutter in the data points though...
-  baromStore[Countdown % storeSize] = bme.readPressure();
-  if (Countdown+1 % storeSize == 0){ //if the next loop is the 101st
-    // open the file. note that only one file can be open at a time,
-    // so you have to close this one before opening another.
-    File dataFile = SD.open(txtFileName, FILE_WRITE);
-    // if the file is available, write to it:
-    if (dataFile) {
-      for (int B_ind = 0; B_ind < storeSize; B_ind++){
-        dataFile.println(baromStore[B_ind]);
+  //I don't really care about the data before the actual toss, and I dont really throw before the third beep
+  if (Countdown > CountdownInterval*3){
+    //////Store data, speed boosted, will lead to a stutter in the data points though...
+    baromStore[Countdown % storeSize] = bme.readPressure();
+    if (Countdown+1 % storeSize == 0){ //if the next loop is the 101st
+      // open the file. note that only one file can be open at a time,
+      // so you have to close this one before opening another.
+      File dataFile = SD.open(txtFileName, FILE_WRITE);
+      
+      // if the file is available, write to it:
+      if (dataFile) {
+        //random crap for reassurance
+        dataFile.println("Current Time:");
+        dataFile.println(millis()); //4000ms I think
+        dataFile.println("Count Down:");
+        dataFile.println(Countdown); //2000 I think
+        for (int B_ind = 0; B_ind < storeSize; B_ind++){
+          dataFile.println(baromStore[B_ind]);
+        }
+        //dataFile.println(bme.readPressure());
+        dataFile.close();
       }
-      //dataFile.println(bme.readPressure());
-      dataFile.close();
-    }
-    // if the file isn't open, pop up an error:
-    else {
-      woopup();   
+      // if the file isn't open, pop up an error:
+      else {
+        woopup();   
+      }
     }
   }
-  */
+  
 
 
+  /*
   ///Store Data, not speed boosted.
   File dataFile = SD.open(txtFileName, FILE_WRITE);
   // if the file is available, write to it:
@@ -324,9 +343,14 @@ void loop() {
   else {
     beep(350);    
   }
+  */
 
-  //TODO
-  /*Calculate how long it takes the barometer call to respond, then how long it takes to write a line*/
+
+  //So becasue I am changing the timedelay to be smaller, I need to make sure I am not frequently surpassing the size
+  //of the time block.  At minimum each time block need to be 628 micro seconds, eg 0.6 milliseconds
+  //so with the current number of data points storeable in the storage array, each time block should be 2 milliseconds
+  //to perfectly fill with the data from the last beep to opening.
+  //the speed could then be increased to 1 millisecond fairly reasonably.
   
   //track the time frame
   //and delay appropriatly
