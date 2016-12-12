@@ -1,14 +1,15 @@
 #include "dkServo.h"
+#include "dkBarom.h"
 
+bool startChecks[4] = {0,0,0,0};
 void setup() {
-  //attach servo
-  servoAttach();
-  //set servo to proper location
-  servoClose();
-  //test barometer
-  //test SD card connection
-  //test write to card
-  //test Camera
+  servoAttach();  //attach servo
+  servoClose();  //set servo to proper location
+  startChecks[0] = baromStartCheck();  //test barometer
+  startChecks[1] = SDStartCheck();  //test SD card connection
+  startChecks[2] = SDWriteCheck();  //test write to card
+  //startChecks[3] = //test Camera
+  
 }
 
 void loop() {
