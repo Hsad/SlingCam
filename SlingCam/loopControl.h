@@ -28,4 +28,7 @@ int loopControlLogIndexHelper2();
 
 void loopControlDelay();
 
+int getLoopCount();
+int getOverFlowCount();
+
 #endif

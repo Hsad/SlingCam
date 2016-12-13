@@ -89,3 +89,10 @@ void loopControlDelay(){
   lastLoopTime = micros(); //micros for absurd accuracy, overflows in 70 minutes
 }
 
+int getLoopCount(){
+  return loopCount;
+}
+int getOverFlowCount(){
+  return timeOverFlowCount;
+}
+

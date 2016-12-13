@@ -63,7 +63,7 @@ void loop() {
   if(loopControlWritePeriod1()){  //write the data from the log to the file
     SDOpen(fileName);
     SDLog("loop Count");
-    SDLog(loopCount);
+    SDLog(getLoopCount());  //was just loopCount, which apparently doesn't work.  I need to get more familiar with the finerpoints of including stuff
     SDLog("interval");
     SDLog(interval);
     SDLog("index helper");
@@ -71,7 +71,7 @@ void loop() {
     SDLog("logArraySize");
     SDLog(logArraySize);    
     SDLog("times loop over limit");
-    SDLog(timeOverFlowCount);
+    SDLog(getOverFlowCount());
     //for(int x = 0; x < logArraySize; x++){
     //  SDLog(logArray[x]);
     //}
