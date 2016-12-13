@@ -2,10 +2,13 @@
 #include "dkBarom.h"
 #include "dkSD.h"
 #include "dkBeep.h"
+#include "loopControl.h"
 
 //void SDTertiaryTest();
 
 bool startChecks[4] = {1,1,1,1};  //assume true until proven otherwise
+
+float logArray[10];
 void setup() {
   servoAttach();  //attach servo
   servoClose();  //set servo to proper location
@@ -41,13 +44,26 @@ void setup() {
 }
 
 void loop() {
-  //beep on every interval
-  //on fouth interval pop chute
-  //log data between third and fourth interval
-  //write data after fouth interval. 
-    //make sure it doesn't delay release
-  //delay to standardize time
+  loopControlCount();  //increment the count
+  if(loopControlCountDown()){  //if the countdown is at its beep interval
+    beepBoop();
+  }
+  if(loopControlCountDownRelease()){  //on the fourth interval
+    servoOpen();
+  }
 
+  if(loopControlLogPeriod()){  //log data between third and fourth interval
+    //need accurate intervals 
+    //then need a system that ideally coordinates the speed of the loop with 
+    //the given size of the array so that the interval covered
+    //is equivelent to the number of cycles in the period
+  }
+  if(loopControlWritePeriod()){  //write the data from the log to the file
+    //make sure it doesn't delay release
+  }
+
+  //delay to standardize time
+  loopControlDelay();
 
 
   //FINAL ROUTINE//
@@ -55,6 +71,7 @@ void loop() {
     //if acceleration upward is slowing
   //Pop Chute
   //take photo
+
 }
 
 /*

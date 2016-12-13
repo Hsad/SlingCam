@@ -21,7 +21,7 @@
  */
 
 #include <SPI.h>  //all
-#include <SD.h>  //all
+#include <SD.h>  //all/Actually I think just the SD
 
 
 //Fruits stuff
@@ -103,7 +103,7 @@ void setup() {
   //set servo to correct location.
   myservo.write(90);
 
-  //Im going to comment this out because its weird that I would need it
+  //Im going to comment this out because its weird that I would need it/I don't understand it
   //also it looks like it could be interfering with the chipselect=10 that I have...
   /*
   // When using hardware SPI, the SS pin MUST be set to an
