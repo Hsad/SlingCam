@@ -12,6 +12,7 @@ void setup() {
   //startChecks[2] = SDWriteCheck();  //test write to card
   //startChecks[3] = //test Camera
   SDPrimaryTest();
+  SDSecondaryTest();
   beepBoop();
 }
 
