@@ -8,7 +8,10 @@
 
 bool startChecks[4] = {1,1,1,1};  //assume true until proven otherwise
 
-float logArray[10];
+const int logArraySize = interval;
+float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
+String fileName = "test4.txt";
+
 void setup() {
   servoAttach();  //attach servo
   servoClose();  //set servo to proper location
@@ -52,18 +55,21 @@ void loop() {
     servoOpen();
   }
 
-  if(loopControlLogPeriod()){  //log data between third and fourth interval
-    //need accurate intervals 
-    //then need a system that ideally coordinates the speed of the loop with 
-    //the given size of the array so that the interval covered
-    //is equivelent to the number of cycles in the period
+
+  //DATA RECORDING//
+  if(loopControlLogPeriod1()){  
+    logArray[loopControlLogIndexHelper1()] = baromPressure();  //log pressure
   }
-  if(loopControlWritePeriod()){  //write the data from the log to the file
-    //make sure it doesn't delay release
+  if(loopControlWritePeriod1()){  //write the data from the log to the file
+    SDOpen(fileName);
+    for(int x = 0; x < logArraySize; x++){
+      SDLog(logArray[x]);
+    }
+    SDClose();
   }
 
-  //delay to standardize time
-  loopControlDelay();
+  //LOOP DELAY//
+  loopControlDelay();  //delay to standardize time
 
 
   //FINAL ROUTINE//
