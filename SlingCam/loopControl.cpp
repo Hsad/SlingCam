@@ -83,6 +83,9 @@ void loopControlDelay(){
     //m-t = time elapsed this loop, subract from ideal loop time
     delayMicroseconds(loopTimeBlock - lastLoopDiff); //can't handle delays longer than 16383, or 16ms
   }
+  else{
+    timeOverFlowCount++;
+  }
   lastLoopTime = micros(); //micros for absurd accuracy, overflows in 70 minutes
 }
 

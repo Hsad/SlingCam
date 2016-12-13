@@ -9,7 +9,7 @@
 bool startChecks[4] = {1,1,1,1};  //assume true until proven otherwise
 
 const int logArraySize = interval;
-float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
+//float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
 String fileName = "test4.txt";
 
 void setup() {
@@ -27,7 +27,7 @@ void setup() {
       if( !startChecks[s] ){ 
         count++;
         for( int n = 0; n <= s; n++){  //beep count to indicate which failed
-          beepBoop();
+          beepBloop();
           delay(50); 
         }
         delay(200); //pause between each component
@@ -58,13 +58,23 @@ void loop() {
 
   //DATA RECORDING//
   if(loopControlLogPeriod1()){  
-    logArray[loopControlLogIndexHelper1()] = baromPressure();  //log pressure
+    //logArray[loopControlLogIndexHelper1()] = baromPressure();  //log pressure
   }
   if(loopControlWritePeriod1()){  //write the data from the log to the file
     SDOpen(fileName);
-    for(int x = 0; x < logArraySize; x++){
-      SDLog(logArray[x]);
-    }
+    SDLog("loop Count");
+    SDLog(loopCount);
+    SDLog("interval");
+    SDLog(interval);
+    SDLog("index helper");
+    SDLog(loopControlLogIndexHelper1());
+    SDLog("logArraySize");
+    SDLog(logArraySize);    
+    SDLog("times loop over limit");
+    SDLog(timeOverFlowCount);
+    //for(int x = 0; x < logArraySize; x++){
+    //  SDLog(logArray[x]);
+    //}
     SDClose();
   }
 
