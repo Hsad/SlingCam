@@ -8,8 +8,8 @@
 #include <Adafruit_BMP280.h> //Barom
 
 bool baromStartCheck();
-float getPressure();
-//floar getTemp();
+float baromPressure();
+//floar baromTemp();
 
 
 #endif 

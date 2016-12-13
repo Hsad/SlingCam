@@ -1,15 +1,15 @@
 #include "dkBarom.h"
 
-int baromPin = 9;
+const static int baromPin = 9;
 Adafruit_BMP280 bme(baromPin); // hardware SPI
 
 bool baromStartCheck(){
   return bme.begin();
 }
-float getPressure(){
+float baromPressure(){
   return bme.readPressure();
 }
-/*float getTemp(){
+/*float baromTemp(){
   return bme.readTemperature();
 }*/
 

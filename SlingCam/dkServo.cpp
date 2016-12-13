@@ -1,9 +1,9 @@
 #include "dkServo.h"
 
 Servo myservo;
-int servoPin = 4;
-int servoCloseNumber = 90;
-int servoOpenNumber = 145;
+const static int servoPin = 4;
+const static int servoCloseNumber = 90;
+const static int servoOpenNumber = 145;
 
 void servoAttach(){
   myservo.attach(servoPin);
