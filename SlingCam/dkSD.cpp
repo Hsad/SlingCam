@@ -9,14 +9,23 @@ bool SDStartCheck(){
 bool SDWriteCheck(){
   //TODO
   //open file and check if it is open, then close it, return result
-  
+  SDOpen("WriteCK.txt");
+  bool ret;
+  if (dataFile){
+    ret = true;
+  } else{
+    ret = false;
+  }
+  SDClose();
+  return ret;
 }
 //Not sure if this should be void or return an afirmative
-File SDOpen(String fileName){  //now I dont know weather to return a reference or a pointer or what...
+void SDOpen(String fileName){ 
   dataFile = SD.open(fileName, FILE_WRITE);
-  return dataFile;
 }
-
+void SDClose(){
+  dataFile.close();
+}
 
 //sort of want a print statement, but I'm not sure what I would need to do to deal with the
 //multitide of incomming types
@@ -42,10 +51,8 @@ void SDLog(unsigned long txt){
 //missing types: char*, short, unsigned short, long long, double, long double
 
 
-void SDClose(){
-  dataFile.close();
-}
 
+/*
 void SDPrimaryTest(){
   dataFile = SD.open("Primary.txt", FILE_WRITE);
   dataFile.println("Primary functions!");
@@ -69,4 +76,5 @@ void SDSecondaryTest(){
   SDLog("raw String");
   dataFile.close();
 }
+*/
 
