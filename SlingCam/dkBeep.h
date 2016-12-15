@@ -5,5 +5,6 @@
 
 void beepBoop();
 void beepBloop();
+void beepTriple();
 
 #endif

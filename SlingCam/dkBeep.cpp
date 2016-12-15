@@ -10,3 +10,13 @@ void beepBloop(){
   tone(beepPin, 150, 100);
   delay(100);
 }
+
+void beepTriple(){
+  tone(beepPin, 650, 100);
+  delay(150);
+  tone(beepPin, 650, 100);
+  delay(150);
+  tone(beepPin, 650, 100);
+  delay(150);
+}
+

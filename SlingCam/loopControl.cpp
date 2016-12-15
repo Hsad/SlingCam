@@ -40,7 +40,22 @@ bool loopControlCountDownRelease(){
   return false;
 }
 
-
+//this is recording from the first beep to the parachute release
+bool loopControlLogPeriod0(){  //log data between third and fourth interval
+  if(loopCount < interval*3){
+    return true;
+  }
+  return false;
+}
+bool loopControlWritePeriod0(){ //make sure it doesn't delay release
+  if(loopCount == interval * 3){
+    return true;
+  }
+  return false;
+}
+int loopControlLogIndexHelper0(){
+  return loopCount;  //This isn't really being used in the context that the other two were created...
+}
 
 //this is recording from the third beep to the parachute release
 bool loopControlLogPeriod1(){  //log data between third and fourth interval
@@ -59,7 +74,7 @@ int loopControlLogIndexHelper1(){
   return loopCount - interval*2;
 }
 
-//Double sized offset 
+//this is recording from the between the second and third beep to a half after the parachute release
 bool loopControlLogPeriod2(){  
   if(loopCount >= interval+(interval/2) and loopCount < interval*3+(interval/2)){
     return true;
