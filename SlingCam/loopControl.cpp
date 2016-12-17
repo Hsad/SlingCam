@@ -42,13 +42,13 @@ bool loopControlCountDownRelease(){
 
 //this is recording from the first beep to the parachute release
 bool loopControlLogPeriod0(){  //log data between third and fourth interval
-  if(loopCount < interval*3){
+  if(loopCount < interval*5){
     return true;
   }
   return false;
 }
 bool loopControlWritePeriod0(){ //make sure it doesn't delay release
-  if(loopCount == interval * 3){
+  if(loopCount == interval * 5){
     return true;
   }
   return false;

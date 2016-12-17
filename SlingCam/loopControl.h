@@ -7,7 +7,7 @@
 //This is plopped in here to allow use of interval, which is dependant on loopTimeBlock
 static unsigned long lastLoopTime = 0;  
 static unsigned long lastLoopDiff;  //hold the difference after calculating it. Overflow protection
-const static unsigned long loopTimeBlock = 1100; // 5000==5ms, can't be larger than 16ms or delayMicroseconds() will break
+const static unsigned long loopTimeBlock = 1250; // 5000==5ms, can't be larger than 16ms or delayMicroseconds() will break
 
 static int loopCount = 0;
 const static float floatInterval = 1000.0 / (loopTimeBlock/1000.0) ;

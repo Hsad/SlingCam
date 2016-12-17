@@ -11,7 +11,7 @@ bool startChecks[4] = {1,1,1,1};  //assume true until proven otherwise
 const int logArraySize = interval;
 //float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
 //Also TODO, figure out why having an array breaks everything...
-String fileName = "test9.txt";
+String fileName = "Throw5.txt";
 
 static unsigned long quickLoopStart;
 static unsigned long quickLoopStart2; //Test7
@@ -63,7 +63,7 @@ void loop() {
   }
   if(loopControlCountDownRelease()){  //on the fourth interval
     servoOpen();
-    
+    SDLog("Deploy");
   }
 
 
