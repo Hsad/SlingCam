@@ -34,6 +34,15 @@ bool SDIsOpen(){
     return false;
   }
 }
+bool SDFileExists(String fileName){
+  return SD.exists(fileName);
+}
+
+
+
+
+
+
 
 //sort of want a print statement, but I'm not sure what I would need to do to deal with the
 //multitide of incomming types
@@ -58,6 +67,11 @@ void SDLog(unsigned long txt){
 }
 //missing types: char*, short, unsigned short, long long, double, long double
 
+
+
+void SDCamWrite(uint8_t *buffer, uint8_t bytesToRead){
+    dataFile.write(buffer, bytesToRead);
+}
 
 
 /*

@@ -4,10 +4,11 @@
 #include "dkBeep.h"
 #include "loopControl.h"
 #include "dkRelease.h"
+#include "dkCam.h"
 
 //void SDTertiaryTest();
 
-bool startChecks[4] = {1,1,1,1};  //assume true until proven otherwise
+bool startChecks[5] = {1,1,1,1,1};  //assume true until proven otherwise
 
 const int logArraySize = interval;
 //float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
@@ -18,18 +19,22 @@ static unsigned long quickLoopStart;
 static unsigned long quickLoopStart2; //Test7
 bool Once = true;
 
+bool chuteOpened = false;
+bool photoNotTaken = true;
+
 void setup() {
   servoAttach();  //attach servo
   servoClose();  //set servo to proper location
   startChecks[0] = baromStartCheck();  //test barometer
   startChecks[1] = SDStartCheck();  //test SD card connection
   startChecks[2] = SDWriteCheck();  //test write to card
-  //startChecks[3] = //test Camera
+  startChecks[3] = camStartCheck();  //test Camera
+  startChecks[4] = camPrepareFileName();
 
   //TODO thing that lists of the non funtioning components
   while( true ){ //want the progress to halt if any component is non functioning
     int count = 0;
-    for (int s = 0; s < 4; s++){  //then beep for each failed component
+    for (int s = 0; s < 5; s++){  //then beep for each failed component
       if( !startChecks[s] ){ 
         count++;
         for( int n = 0; n <= s; n++){  //beep count to indicate which failed
@@ -69,13 +74,21 @@ void loop() {
   if(loopControlCountDownRelease()){  //on the fourth interval
     servoOpen();
     SDLog("Deploy");
+    chuteOpened = true;
   }
   //Barom Controlled release
   if(releaseNow(baromPressure())){
     servoOpen();
     SDLog("Barom Deploy");
+    chuteOpened = true;
   }
 
+  if(chuteOpened and photoNotTaken){
+    SDClose();  //close so that the cam can open a file
+    camTakeAndSave();
+    SDOpen(fileName);  
+    photoNotTaken = false;
+  }
 
   //DATA RECORDING//
   //if(loopControlLogPeriod1()){ 
