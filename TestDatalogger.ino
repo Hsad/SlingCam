@@ -209,7 +209,7 @@ void setup() {
 
   ///None of this will Run Until the Camera is mounted///
 
-  /*
+  
   //get the camera
   while (!cam.begin()){
     //flash(2,red);
@@ -230,7 +230,7 @@ void setup() {
   analogWrite(red,50); //take photo red led
   beep(500);
   while(!cam.takePicture()) {
-    flash(1,green);
+    //flash(1,green);
   }
   // Create an image with the name IMAGExx.JPG
   char filename[13];
@@ -263,7 +263,7 @@ void setup() {
     buffer = cam.readPicture(bytesToRead);
     imgFile.write(buffer, bytesToRead);
     if(++wCount >= 64) { // Every 2K, give a little feedback so it doesn't appear locked up
-      flash(1,green);
+      //flash(1,green);
       wCount = 0;
     }
     //Serial.print("Read ");  Serial.print(bytesToRead, DEC); Serial.println(" bytes");
@@ -274,17 +274,17 @@ void setup() {
   analogWrite(red,0);
   analogWrite(blue,0);
   
-  flash(1, red);
-  flash(1, blue);
-  flash(1, green);
+  //flash(1, red);
+  //flash(1, blue);
+  //flash(1, green);
 
   
 
-  flash(2, red);
-  flash(2, blue);
-  flash(2, green);
+  //flash(2, red);
+  //flash(2, blue);
+  //flash(2, green);
   tone(boop, 660, 100);
-  */
+  
 
   
 }
@@ -356,7 +356,7 @@ void loop() {
       }
     }
   }
-  
+
 
 
   /*
