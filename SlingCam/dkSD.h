@@ -8,6 +8,7 @@ bool SDStartCheck();
 bool SDWriteCheck();
 void SDOpen(String fileName);  //Not sure if this should be void or return an afirmative
 void SDClose();
+bool SDIsOpen();
 
 void SDLog(String txt);
 void SDLog(int txt);

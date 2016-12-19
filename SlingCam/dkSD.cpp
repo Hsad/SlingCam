@@ -26,6 +26,14 @@ void SDOpen(String fileName){
 void SDClose(){
   dataFile.close();
 }
+bool SDIsOpen(){
+  if(dataFile){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
 //sort of want a print statement, but I'm not sure what I would need to do to deal with the
 //multitide of incomming types
