@@ -62,7 +62,7 @@ bool startChecks[5] = {1,1,1,1,1};  //assume true until proven otherwise
 const int logArraySize = interval;
 //float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
 //Also TODO, figure out why having an array breaks everything...
-char* fileName = "FuckIt2.txt";
+char* fileName = "photo1.txt";
 
 static unsigned long quickLoopStart;
 static unsigned long quickLoopStart2; //Test7
@@ -78,7 +78,7 @@ void setup() {
   startChecks[0] = baromStartCheck();  //test barometer
   startChecks[1] = SDStartCheck();  //test SD card connection
   startChecks[2] = SDWriteCheck();  //test write to card
-  //startChecks[3] = camStartCheck();  //test Camera
+  startChecks[3] = camStartCheck();  //test Camera
   startChecks[4] = camPrepareFileName();
 
   //TODO thing that lists of the non funtioning components
