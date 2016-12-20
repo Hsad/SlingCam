@@ -29,6 +29,7 @@ bool releaseNow(float pressure){
       //pressure had dropped more than 5 differences below average, pop the chute
 
       //DEBUG
+      /*
       SDLog("Next 5, diff, ave, minAve, MaxAve, pressure, releaseLoopCount");
       SDLog(difference);
       SDLog(ave);
@@ -36,6 +37,7 @@ bool releaseNow(float pressure){
       SDLog(maxAve);
       SDLog(pressure);
       SDLog(releaseLoopCount);
+      */
       //DEBUG
       
       return true;

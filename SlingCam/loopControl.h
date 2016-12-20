@@ -23,6 +23,7 @@ bool loopControlLogPeriod0();
 bool loopControlWritePeriod0();
 int loopControlLogIndexHelper0();
 
+/*
 bool loopControlLogPeriod1();
 bool loopControlWritePeriod1();
 int loopControlLogIndexHelper1();
@@ -30,6 +31,7 @@ int loopControlLogIndexHelper1();
 bool loopControlLogPeriod2();
 bool loopControlWritePeriod2();
 int loopControlLogIndexHelper2();
+*/
 
 void loopControlDelay();
 

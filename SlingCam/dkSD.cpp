@@ -55,15 +55,15 @@ void SDLog(char* txt){
 void SDLog(int txt){
   dataFile.println(txt);
 }
-void SDLog(unsigned int txt){
-  dataFile.println(txt);
-}
+//void SDLog(unsigned int txt){
+// dataFile.println(txt);
+//}
 void SDLog(float txt){
   dataFile.println(txt);
 }
-void SDLog(long txt){
-  dataFile.println(txt);
-}
+//void SDLog(long txt){
+//  dataFile.println(txt);
+//}
 void SDLog(unsigned long txt){
   dataFile.println(txt);
 }

@@ -6,10 +6,11 @@ void beepBoop(){
   tone(beepPin, 440, 100);
 }
 
+/*
 void beepBloop(){
   tone(beepPin, 150, 100);
   delay(100);
-}
+}*/
 
 void beepTriple(){
   tone(beepPin, 650, 100);
@@ -20,7 +21,8 @@ void beepTriple(){
   delay(150);
 }
 
+/*
 void beepPip(){
   tone(beepPin, 650, 30);
-}
+}*/
 

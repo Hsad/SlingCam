@@ -4,8 +4,8 @@
 #include "arduino.h"  //for tone
 
 void beepBoop();
-void beepBloop();
+//void beepBloop();
 void beepTriple();
-void beepPip();
+//void beepPip();
 
 #endif

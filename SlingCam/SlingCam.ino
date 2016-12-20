@@ -79,7 +79,7 @@ void setup() {
   startChecks[1] = SDStartCheck();  //test SD card connection
   startChecks[2] = SDWriteCheck();  //test write to card
   //startChecks[3] = camStartCheck();  //test Camera
-  //startChecks[4] = camPrepareFileName();
+  startChecks[4] = camPrepareFileName();
 
   //TODO thing that lists of the non funtioning components
   while( true ){ //want the progress to halt if any component is non functioning
@@ -88,8 +88,9 @@ void setup() {
       if( !startChecks[s] ){ 
         count++;
         for( int n = 0; n <= s; n++){  //beep count to indicate which failed
-          beepBloop();
-          delay(50); 
+          //beepBloop();
+          beepBoop();
+          delay(150); 
         }
         delay(200); //pause between each component
       }
@@ -107,9 +108,11 @@ void setup() {
     if(!startChecks[2]){
       startChecks[2] = SDWriteCheck();  //test write to card
     }
+    if(!startChecks[3]){
+      startChecks[3] = camStartCheck();  //test Camera
+    }
 
     
-    //startChecks[3] = camStartCheck();  //test Camera
     if (count == 0){  //everything worked fine, get out of this death trap
       break; 
     }
@@ -168,18 +171,18 @@ void loop() {
   if(loopControlWritePeriod0()){  //write the data from the log to the file
     //SDOpen(fileName);  //off because the file should already be open.
     if(SDIsOpen()){
-      SDLog("full time covered:");
-      SDLog(micros() - quickLoopStart);
-      SDLog("collection time covered:");  //during test9 this is basicly meaning less 
-      SDLog(micros() - quickLoopStart2);
-      SDLog("loop Count");
-      SDLog(getLoopCount());  //was just loopCount, which apparently doesn't work.  I need to get more familiar with the finerpoints of including stuff
-      SDLog("interval");
-      SDLog(interval);
-      SDLog("index helper");
-      SDLog(loopControlLogIndexHelper1());
-      SDLog("logArraySize");
-      SDLog(logArraySize);    
+      //SDLog("full time covered:");
+      //SDLog(micros() - quickLoopStart);
+      //SDLog("collection time covered:");  //during test9 this is basicly meaning less 
+      //SDLog(micros() - quickLoopStart2);
+      //SDLog("loop Count");
+      //SDLog(getLoopCount());  //was just loopCount, which apparently doesn't work.  I need to get more familiar with the finerpoints of including stuff
+      //SDLog("interval");
+      //SDLog(interval);
+      //SDLog("index helper");
+      //SDLog(loopControlLogIndexHelper1());
+      //SDLog("logArraySize");
+      //SDLog(logArraySize);    
       SDLog("times loop over limit");
       SDLog(getOverFlowCount());
       SDLog("loopTimeDelay:");
@@ -265,7 +268,7 @@ void camTakeAndSave(){
     //imgFile.write(buffer, bytesToRead);
     SDCamWrite(buffer, bytesToRead);
     if(++wCount >= 64) { // Every 2K, give a little feedback so it doesn't appear locked up
-      beepPip();
+      //beepPip();
       wCount = 0;
     }
     //Serial.print("Read ");  Serial.print(bytesToRead, DEC); Serial.println(" bytes");

@@ -57,6 +57,7 @@ int loopControlLogIndexHelper0(){
   return loopCount;  //This isn't really being used in the context that the other two were created...
 }
 
+/*
 //this is recording from the third beep to the parachute release
 bool loopControlLogPeriod1(){  //log data between third and fourth interval
   if(loopCount >= interval * 2 and loopCount < interval*3){
@@ -90,7 +91,7 @@ bool loopControlWritePeriod2(){ //make sure it doesn't delay release
 int loopControlLogIndexHelper2(){
   return loopCount - (interval + interval/2);
 }
-
+*/
 
 void loopControlDelay(){
   lastLoopDiff = micros()-lastLoopTime;  //becasue there is a really tiny chance this could underflow in the time that elapses, causing a massive delay, like 70 hours
