@@ -62,7 +62,7 @@ bool startChecks[5] = {1,1,1,1,1};  //assume true until proven otherwise
 const int logArraySize = interval;
 //float logArray[logArraySize];  //TODO  Need code that syncs up the number of loops within each interval
 //Also TODO, figure out why having an array breaks everything...
-String fileName = "GTC2.txt";
+char* fileName = "FuckIt2.txt";
 
 static unsigned long quickLoopStart;
 static unsigned long quickLoopStart2; //Test7
@@ -72,13 +72,14 @@ bool chuteOpened = false;
 bool photoNotTaken = true;
 
 void setup() {
+  SDClose(); //Might be getting an error where this continues to keep an old file open, blocking new files.
   servoAttach();  //attach servo
   servoClose();  //set servo to proper location
   startChecks[0] = baromStartCheck();  //test barometer
   startChecks[1] = SDStartCheck();  //test SD card connection
   startChecks[2] = SDWriteCheck();  //test write to card
-  startChecks[3] = camStartCheck();  //test Camera
-  startChecks[4] = camPrepareFileName();
+  //startChecks[3] = camStartCheck();  //test Camera
+  //startChecks[4] = camPrepareFileName();
 
   //TODO thing that lists of the non funtioning components
   while( true ){ //want the progress to halt if any component is non functioning
@@ -94,10 +95,21 @@ void setup() {
       }
     }
     delay(1000);  //pause between full cycles
-    //check again... see if its fixed
-    startChecks[0] = baromStartCheck();  //test barometer
-    startChecks[1] = SDStartCheck();  //test SD card connection
-    startChecks[2] = SDWriteCheck();  //test write to card
+
+    
+    //check again... see if its fixed.  Now only the busted ones.
+    if(!startChecks[0]){
+      startChecks[0] = baromStartCheck();  //test barometer
+    }
+    if(!startChecks[1]){
+      startChecks[1] = SDStartCheck();  //test SD card connection
+    }
+    if(!startChecks[2]){
+      startChecks[2] = SDWriteCheck();  //test write to card
+    }
+
+    
+    //startChecks[3] = camStartCheck();  //test Camera
     if (count == 0){  //everything worked fine, get out of this death trap
       break; 
     }

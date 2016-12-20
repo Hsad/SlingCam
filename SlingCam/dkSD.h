@@ -6,13 +6,13 @@
 
 bool SDStartCheck();
 bool SDWriteCheck();
-void SDOpen(String fileName);  //Not sure if this should be void or return an afirmative
+void SDOpen(char* fileName);  //Not sure if this should be void or return an afirmative
 void SDClose();
 bool SDIsOpen();
-bool SDFileExists(String fileName);
+bool SDFileExists(char* fileName);
 
 
-void SDLog(String txt);
+void SDLog(char* txt);
 void SDLog(int txt);
 void SDLog(unsigned int txt);
 void SDLog(float txt);

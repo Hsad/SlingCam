@@ -10,8 +10,10 @@ bool SDWriteCheck(){
   //TODO
   //open file and check if it is open, then close it, return result
   SDOpen("WriteCK.txt");
+  delay(10);
   bool ret;
   if (dataFile){
+    SDLog(FreeRam());
     ret = true;
   } else{
     ret = false;
@@ -20,7 +22,7 @@ bool SDWriteCheck(){
   return ret;
 }
 //Not sure if this should be void or return an afirmative
-void SDOpen(String fileName){ 
+void SDOpen(char* fileName){ 
   dataFile = SD.open(fileName, FILE_WRITE);
 }
 void SDClose(){
@@ -34,7 +36,7 @@ bool SDIsOpen(){
     return false;
   }
 }
-bool SDFileExists(String fileName){
+bool SDFileExists(char* fileName){
   return SD.exists(fileName);
 }
 
@@ -47,7 +49,7 @@ bool SDFileExists(String fileName){
 //sort of want a print statement, but I'm not sure what I would need to do to deal with the
 //multitide of incomming types
 //Answer: Nothing, it's not C code any more!
-void SDLog(String txt){
+void SDLog(char* txt){
   dataFile.println(txt);
 }
 void SDLog(int txt){
