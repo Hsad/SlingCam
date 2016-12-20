@@ -28,11 +28,11 @@
 // Using SoftwareSerial (Arduino 1.0+) or NewSoftSerial (Arduino 0023 & prior):
 #if ARDUINO >= 100
 // On Uno: camera TX connected to pin 2, camera RX to pin 3:
-SoftwareSerial cameraconnection = SoftwareSerial(1, 0);  ///////////////////// OK SO ONE OF THESE MUST WORK JUST GONNA TRY BOTH AND FIGURE IT OUT...
+SoftwareSerial cameraconnection = SoftwareSerial(15, 14);  ///////////////////// OK SO ONE OF THESE MUST WORK JUST GONNA TRY BOTH AND FIGURE IT OUT...
 // On Mega: camera TX connected to pin 69 (A15), camera RX to pin 3:
 //SoftwareSerial cameraconnection = SoftwareSerial(69, 3);
 #else
-NewSoftSerial cameraconnection = NewSoftSerial(1, 0);  /////////////////////////BLARG
+NewSoftSerial cameraconnection = NewSoftSerial(15, 14);  /////////////////////////BLARG
 #endif
 
 //my attempt at this junk
