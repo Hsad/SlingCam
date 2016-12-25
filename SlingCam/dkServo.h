@@ -6,5 +6,6 @@
 void servoAttach();
 void servoClose();
 void servoOpen();
+void servoDetach();
 
 #endif

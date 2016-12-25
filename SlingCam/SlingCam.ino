@@ -149,6 +149,8 @@ void loop() {
 
   if(chuteOpened and photoNotTaken){
     SDClose();  //close so that the cam can open a file
+    delay(700); //delay a bit longer after release to maybe garner some extra stability during the photo
+    servoDetach();
     camTakeAndSave();
     SDOpen(fileName);  
     photoNotTaken = false;
@@ -256,7 +258,8 @@ void camTakeAndSave(){
     //Uhhh not sure If I can just have takePicture()
     return 0;
   }
-  //File imgFile = SDOpen(camFileName);
+  
+  SDOpen(camFileName);
   uint16_t jpglen = camera.frameLength(); // Get the size of the image (frame) taken  
 
   byte wCount = 0; // For counting # of writes
@@ -268,7 +271,7 @@ void camTakeAndSave(){
     //imgFile.write(buffer, bytesToRead);
     SDCamWrite(buffer, bytesToRead);
     if(++wCount >= 64) { // Every 2K, give a little feedback so it doesn't appear locked up
-      //beepPip();
+      beepPip();
       wCount = 0;
     }
     //Serial.print("Read ");  Serial.print(bytesToRead, DEC); Serial.println(" bytes");

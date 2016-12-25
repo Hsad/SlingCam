@@ -14,4 +14,7 @@ void servoClose(){
 void servoOpen(){
   myservo.write(servoOpenNumber);
 }
+void servoDetach(){
+  myservo.detach(); //something was causing pin 4 to freakout when the camaera is saving, this is a dirty hack
+}
 

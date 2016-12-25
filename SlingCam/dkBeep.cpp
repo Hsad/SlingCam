@@ -21,8 +21,8 @@ void beepTriple(){
   delay(150);
 }
 
-/*
+
 void beepPip(){
   tone(beepPin, 650, 30);
-}*/
+}
 
