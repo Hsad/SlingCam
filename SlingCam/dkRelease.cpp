@@ -14,9 +14,11 @@ bool releaseNow(float pressure){
 
   if (pressure < ave){ //if low value, incorporate into the low average
     minAve = (pressure + (minAve * releaseLoopCount)) / (releaseLoopCount+1);
+    maxAve = (ave + (maxAve * releaseLoopCount)) / (releaseLoopCount+1); //Average incorporation
   }
   if (pressure > ave){ //if high value incorporate into the high average
     maxAve = (pressure + (maxAve * releaseLoopCount)) / (releaseLoopCount+1);
+    minAve = (ave + (minAve * releaseLoopCount)) / (releaseLoopCount+1); //average incorporation
   }
 
   ave = (pressure + (ave * releaseLoopCount)) / (releaseLoopCount+1); //calculate baseline average

@@ -132,14 +132,14 @@ void setup() {
 
 void loop() {
   loopControlCount();  //increment the count
-  if(loopControlCountDown()){  //if the countdown is at its beep interval
-    beepBoop();
-  }
-  if(loopControlCountDownRelease()){  //on the fourth interval
-    servoOpen();
-    SDLog("Deploy");
-    chuteOpened = true;
-  }
+  //if(loopControlCountDown()){  //if the countdown is at its beep interval
+  //  beepBoop();
+  //}
+  //if(loopControlCountDownRelease()){  //on the fourth interval
+  //  servoOpen();
+  //  SDLog("Deploy");
+  //  chuteOpened = true;
+  //}
   //Barom Controlled release
   if(releaseNow(baromPressure())){
     servoOpen();
@@ -150,27 +150,34 @@ void loop() {
   if(chuteOpened and photoNotTaken){
     SDClose();  //close so that the cam can open a file
     delay(700); //delay a bit longer after release to maybe garner some extra stability during the photo
+    //Could replace the delay with code that detects the peak altitude...
     servoDetach();
     camTakeAndSave();
     SDOpen(fileName);  
     photoNotTaken = false;
   }
 
+  
   //DATA RECORDING//
   //if(loopControlLogPeriod1()){ 
-  if(loopControlLogPeriod0()){  
+  //if(loopControlLogPeriod0()){  
+  if(photoNotTaken){
     //logArray[loopControlLogIndexHelper1()] = baromPressure();  //log pressure
     //that doesing seem to be working, so instead...
     if(SDIsOpen()){
       SDLog(baromPressure());
     }
+    /*
     if(Once){  //Test7
       quickLoopStart2 = micros();
       Once = false;
-    }
+    }*/
   }
+  
+  
   //if(loopControlWritePeriod1()){  //write the data from the log to the file
-  if(loopControlWritePeriod0()){  //write the data from the log to the file
+  //if(loopControlWritePeriod0()){  //write the data from the log to the file
+  if(!photoNotTaken){ //if the photo has been taken and saved, close up the data log file.
     //SDOpen(fileName);  //off because the file should already be open.
     if(SDIsOpen()){
       //SDLog("full time covered:");
@@ -189,6 +196,7 @@ void loop() {
       SDLog(getOverFlowCount());
       SDLog("loopTimeDelay:");
       SDLog(loopTimeBlock);
+      SDLog("Merry Christmas");
       //for(int x = 0; x < logArraySize; x++){
       //  SDLog(logArray[x]);
       //}
@@ -196,12 +204,13 @@ void loop() {
     SDClose();  //single close of the file.
     beepTriple();
   }
+  
 
   //LOOP DELAY//
   loopControlDelay();  //delay to standardize time
 
 
-  //FINAL ROUTINE//
+  //FINAL ROUTINE//   haha ha
   //check altitude
     //if acceleration upward is slowing
   //Pop Chute
