@@ -27,8 +27,8 @@ bool releaseNow(float pressure){
   if(releaseLoopCount > 100){  //if not one of the early data points, which are error prone, and trigger happy.
     //if the pressure value is five times the min-max gap below the average, pop the chute
     difference = minAve - maxAve; //this is a negitive number
-    if (pressure - ave < difference * 5){  //value zeroed out on the average.  p-a must be negitive
-      //pressure had dropped more than 5 differences below average, pop the chute
+    if (pressure - ave < difference * 7){  //value zeroed out on the average.  p-a must be negitive
+      //pressure had dropped more than 7 differences below average, pop the chute
 
       //DEBUG
       /*
